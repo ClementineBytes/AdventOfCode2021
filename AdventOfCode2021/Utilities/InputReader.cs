@@ -6,7 +6,7 @@ namespace AdventOfCode2021.Utilities
 {
     public class InputReader
     {
-        public static string FileDirectory = "C:\\Users\\kyle.clement\\source\\repos\\AdventOfCode2021\\Input\\";
+        public string FileDirectory = Path.Combine(Environment.CurrentDirectory, @"Input\");
         public string FileName { get; set; }
         public InputReader(string fileName)
         {
