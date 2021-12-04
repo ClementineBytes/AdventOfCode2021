@@ -47,7 +47,7 @@ namespace AdventOfCode2021.Utilities
             string inputStr = GetInputFileAsString();
             var inputStrArr = inputStr.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
-            //create two dimensional array to hold values for each binary "column" from the input
+            //create two dimensional array to hold values for each binary column from the input
             int[,] binaryArr = new int[inputStrArr.Length, inputStrArr[0].Length];
 
             for (int i = 0; i < inputStrArr.Length; i++)
@@ -67,12 +67,12 @@ namespace AdventOfCode2021.Utilities
             string inputStr = GetInputFileAsString();
             var inputStrArr = inputStr.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
-            //create two dimensional array to hold values for each binary "column" from the input
-            int[][] binaryArr = new int[1000][];
+            //create jagged array to hold values for each binary column from the input
+            int[][] binaryArr = new int[inputStrArr.Length][];
 
             for (int i = 0; i < inputStrArr.Length; i++)
             {
-                binaryArr[i] = new int[12];
+                binaryArr[i] = new int[inputStrArr[i].Length];
                 var numberRow = inputStrArr[i].ToCharArray();
                 for (int j = 0; j < numberRow.Length; j++)
                 {
