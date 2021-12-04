@@ -12,10 +12,9 @@ namespace AdventOfCode2021.Utilities
         {
             FileName = FileDirectory + fileName;
         }
-        public int[] GetInputAsIntArray()
+        public int[] GetIntArrayFromInput()
         {
-            string inputStr = GetInputFileAsString();
-            var inputStrArr = inputStr.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var inputStrArr = GetStringArrayFromInput();
             var data = new List<int>();
             foreach (var str in inputStrArr)
             {
@@ -24,14 +23,14 @@ namespace AdventOfCode2021.Utilities
             return data.ToArray();
         }
 
-        public string GetInputFileAsString()
+        public string[] GetStringArrayFromInput()
         {
-            string data = "";
+            string dataStr = "";
             try
             {
                 using (var reader = new StreamReader(FileName))
                 {
-                    data = reader.ReadToEnd();
+                    dataStr = reader.ReadToEnd();
                 }
             }
             catch (IOException ex)
@@ -39,13 +38,13 @@ namespace AdventOfCode2021.Utilities
                 Console.WriteLine("Error reading input file " + FileName);
                 Console.WriteLine(ex.Message);
             }
+            var data = dataStr.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
             return data;
         }
 
         public int[,] GetBinaryArrayFromInput()
         {
-            string inputStr = GetInputFileAsString();
-            var inputStrArr = inputStr.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var inputStrArr = GetStringArrayFromInput();
 
             //create two dimensional array to hold values for each binary column from the input
             int[,] binaryArr = new int[inputStrArr.Length, inputStrArr[0].Length];
@@ -64,8 +63,7 @@ namespace AdventOfCode2021.Utilities
 
         public int[][] GetJaggedArrayFromInput()
         {
-            string inputStr = GetInputFileAsString();
-            var inputStrArr = inputStr.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var inputStrArr = GetStringArrayFromInput();
 
             //create jagged array to hold values for each binary column from the input
             int[][] binaryArr = new int[inputStrArr.Length][];

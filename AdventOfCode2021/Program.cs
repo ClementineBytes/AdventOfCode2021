@@ -40,7 +40,7 @@ namespace AdventOfCode2021
         public static int GetNumberOfDepthIncreases(string inputFile)
         {
             var reader = new InputReader(inputFile);
-            var depthsArr = reader.GetInputAsIntArray();
+            var depthsArr = reader.GetIntArrayFromInput();
             int result = 0;
             for (int i = 1; i < depthsArr.Length; i++)
             {
@@ -54,7 +54,7 @@ namespace AdventOfCode2021
         public static int GetNumberOfSumIncreases(string inputFile)
         {
             var reader = new InputReader(inputFile);
-            var depthsArr = reader.GetInputAsIntArray();
+            var depthsArr = reader.GetIntArrayFromInput();
             int result = 0;
             int previousSum = 0;
             int currentSum = 0;
@@ -88,8 +88,7 @@ namespace AdventOfCode2021
         public static int GetSubmarinePosition(string inputFile)
         {
             var reader = new InputReader(inputFile);
-            string inputStr = reader.GetInputFileAsString();
-            var inputStrArr = inputStr.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var inputStrArr = reader.GetStringArrayFromInput();
 
             int depthIncrease = 0;
             int depthDecrease = 0;
