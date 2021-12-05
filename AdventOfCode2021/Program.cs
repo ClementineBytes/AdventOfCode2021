@@ -12,10 +12,10 @@ namespace AdventOfCode2021
             #region Day 1
             //Day 1 
             var numOfIncreases = GetNumberOfDepthIncreases("Day1-Input.txt");
-            Console.WriteLine("number of increases is - " + numOfIncreases);
+            Console.WriteLine("number of increases is " + numOfIncreases);
 
             var numOfSumIncreases = GetNumberOfSumIncreases("Day1-Input.txt");
-            Console.WriteLine("number of sum increases is - " + numOfSumIncreases);
+            Console.WriteLine("number of sum increases is " + numOfSumIncreases);
             #endregion
 
             #region Day 2
@@ -72,7 +72,7 @@ namespace AdventOfCode2021
                 else
                 {
                     previousSum = currentSum;
-                    currentSum = currentSum = depthsArr[i] + depthsArr[i + 1] + depthsArr[i + 2];
+                    currentSum = depthsArr[i] + depthsArr[i + 1] + depthsArr[i + 2];
                     if (currentSum > previousSum) 
                     {
                         result++;
@@ -193,15 +193,15 @@ namespace AdventOfCode2021
                 int columnSum = arrayHelper.GetColumn(nums, cursor).Sum();
                 int mostCommonNumber = 0;
 
-                var numberOnes = from x in nums
+                var ones = from x in nums
                                  where x[cursor] == 1
                                  select x;
 
-                var numberZeroes = from x in nums
+                var zeros = from x in nums
                                    where x[cursor] == 0
                                    select x;
 
-                if (numberOnes.ToArray().Length >= numberZeroes.ToArray().Length)
+                if (ones.ToArray().Length >= zeros.ToArray().Length)
                 {
                     mostCommonNumber = 1;
                 }
@@ -232,15 +232,15 @@ namespace AdventOfCode2021
                 int columnSum = arrayHelper.GetColumn(nums, cursor).Sum();
                 int leastCommonNumber = 0;
 
-                var numberOnes = from x in nums
+                var ones = from x in nums
                                  where x[cursor] == 1
                                  select x;
 
-                var numberZeroes = from x in nums
+                var zeros = from x in nums
                                    where x[cursor] == 0
                                    select x;
 
-                if (numberOnes.ToArray().Length < numberZeroes.ToArray().Length)
+                if (ones.ToArray().Length < zeros.ToArray().Length)
 
                 {
                     leastCommonNumber = 1;
