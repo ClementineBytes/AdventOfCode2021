@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AdventOfCode2021.Utilities
 {
@@ -78,6 +79,58 @@ namespace AdventOfCode2021.Utilities
                 }
             }
             return binaryArr;
+        }
+
+        public List<int> GetBingoNumbersFromInput()
+        {
+            string dataStr = "";
+            try
+            {
+                using (var reader = new StreamReader(FileName))
+                {
+                    dataStr = reader.ReadLine();
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("Error reading input file " + FileName);
+                Console.WriteLine(ex.Message);
+            }
+            var data = dataStr.Split(',').Select(int.Parse).ToList();
+            return data;
+        }
+
+        public List<int[][]> GetBingoBoardsFromInput()
+        {
+            string dataStr = "";
+            try
+            {
+                using (var reader = new StreamReader(FileName))
+                {
+                    reader.ReadLine(); //skip the first line of bingo numbers to get to the boards
+                    dataStr = reader.ReadToEnd();
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("Error reading input file " + FileName);
+                Console.WriteLine(ex.Message);
+            }
+            dataStr = dataStr.Replace("\r\n", " ");
+            var data = dataStr.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var bingoBoards = new List<int[][]>();
+
+            for (int i = 0; i < data.Length; i+=25)
+            {
+                var bingoBoard = new int[25][];
+                for (int j = 0; j < 25; j++)
+                {
+                    bingoBoard[j] = new int[1];
+                    bingoBoard[j][0] = int.Parse(data[i + j]);
+                }
+                bingoBoards.Add(bingoBoard);
+            }
+            return bingoBoards;
         }
     }
 }

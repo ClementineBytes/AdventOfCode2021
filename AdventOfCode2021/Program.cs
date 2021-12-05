@@ -1,5 +1,6 @@
 ﻿using AdventOfCode2021.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2021
@@ -11,26 +12,32 @@ namespace AdventOfCode2021
 
             #region Day 1
             //Day 1 
-            var numOfIncreases = GetNumberOfDepthIncreases("Day1-Input.txt");
-            Console.WriteLine("number of increases is - " + numOfIncreases);
+            //var numOfIncreases = GetNumberOfDepthIncreases("Day1-Input.txt");
+            //Console.WriteLine("number of increases is - " + numOfIncreases);
 
-            var numOfSumIncreases = GetNumberOfSumIncreases("Day1-Input.txt");
-            Console.WriteLine("number of sum increases is - " + numOfSumIncreases);
+            //var numOfSumIncreases = GetNumberOfSumIncreases("Day1-Input.txt");
+            //Console.WriteLine("number of sum increases is - " + numOfSumIncreases);
             #endregion
 
             #region Day 2
             //Day 2
-            var submarinePosition = GetSubmarinePosition("Day2-Input.txt");
-            Console.WriteLine("Submarine position is " + submarinePosition);
+            //var submarinePosition = GetSubmarinePosition("Day2-Input.txt");
+            //Console.WriteLine("Submarine position is " + submarinePosition);
             #endregion
 
             #region Day 3
             //Day 3
-            var powerConsumption = GetSubmarinePowerConsumption("Day3-Input.txt");
-            Console.WriteLine("Submarine power consumption is " + powerConsumption);
+            //var powerConsumption = GetSubmarinePowerConsumption("Day3-Input.txt");
+            //Console.WriteLine("Submarine power consumption is " + powerConsumption);
 
-            var lifeSupportRating = GetSubmarineLifeSupportRating("Day3-Input.txt");
-            Console.WriteLine("Submarine life support rating is " + lifeSupportRating);
+            //var lifeSupportRating = GetSubmarineLifeSupportRating("Day3-Input.txt");
+            //Console.WriteLine("Submarine life support rating is " + lifeSupportRating);
+            #endregion
+
+            #region Day 4
+            //Day 4 Bingo Game
+            var winningBoardScore = GetWinningBoardScore("Day4-Input.txt");
+
             #endregion
             Console.ReadLine();
         }
@@ -259,7 +266,47 @@ namespace AdventOfCode2021
                 return FilterToLeastCommonNumber(nums, cursor, arrayHelper);
             }
         }
-            #endregion
+        #endregion
 
+        #region Day 4
+        public static int GetWinningBoardScore(string inputFile)
+        {
+            var reader = new InputReader(inputFile);
+
+            var bingoNumbers = reader.GetBingoNumbersFromInput();
+            var bingoBoards = reader.GetBingoBoardsFromInput();
+
+            bool gameWon = false;
+            var numbersDrawn = new List<int>();
+            int[] winningBoard = new int[25];
+
+            for (int i = 0; i < bingoNumbers.Count; i++)
+            {
+                if (i < 4)
+                {
+                    //draw five numbers to start
+                    numbersDrawn.Add(bingoNumbers[0]);
+                    numbersDrawn.Add(bingoNumbers[1]);
+                    numbersDrawn.Add(bingoNumbers[2]);
+                    numbersDrawn.Add(bingoNumbers[3]);
+                    numbersDrawn.Add(bingoNumbers[4]);
+                    i = 4;
+                }
+                else
+                {
+                    numbersDrawn.Add(bingoNumbers[i]);
+                }
+            }
+
+            int result = 0;
+            return result;
         }
+
+        public static bool IsGameWon(List<int> numbersDrawn, List<int[][]> bingoBoards)
+        {
+            return false;
+        }
+        #endregion
+
+    }
 }
