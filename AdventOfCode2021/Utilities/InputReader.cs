@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace AdventOfCode2021.Utilities
 {
@@ -118,9 +117,6 @@ namespace AdventOfCode2021.Utilities
                 Console.WriteLine(ex.Message);
             }
 
-            //var data = dataStr.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
-            //Regex trimmer = new Regex(@"\s\s+");
-
             var data = dataStr.Split(Environment.NewLine);
             data = data.Where(x => !string.IsNullOrEmpty(x)).ToArray();
             var bingoBoards = new List<string[][]>();
@@ -130,10 +126,6 @@ namespace AdventOfCode2021.Utilities
                 var bingoBoard = new string[5][];
                 for (int j = 0; j < 5; j++)
                 {
-                    //bingoBoard[j] = new string[1];
-                    //var rowStr = data[i + j];
-                    //rowStr = rowStr.Trim();
-                    //bingoBoard[j][0] = rowStr;
                     bingoBoard[j] = new string[1];
                     bingoBoard[j][0] = data[i + j];
                 }
