@@ -465,10 +465,9 @@ namespace AdventOfCode2021
 
         public static int CalculateWinningScore(List<int> unmarkedBoardNums, List<int> numbersDrawn)
         {
-            int score = 0;
             int lastNumDrawn = numbersDrawn.Last();
             int sumOfUnmarkedNums = unmarkedBoardNums.Sum();
-            score = sumOfUnmarkedNums * lastNumDrawn;
+            int score = sumOfUnmarkedNums * lastNumDrawn;
             return score;
         }
 
@@ -488,7 +487,7 @@ namespace AdventOfCode2021
                     boardNumbers.AddRange(row.ToList());
                 }
 
-                if ((!boardRows[0].Except(numbersDrawn).Any() || !boardRows[1].Except(numbersDrawn).Any() || !boardRows[2].Except(numbersDrawn).Any() || !boardRows[3].Except(numbersDrawn).Any() || !boardRows[4].Except(numbersDrawn).Any()) && boardWon == false)
+                if ((!boardRows[0].Except(numbersDrawn).Any() || !boardRows[1].Except(numbersDrawn).Any() || !boardRows[2].Except(numbersDrawn).Any() || !boardRows[3].Except(numbersDrawn).Any() || !boardRows[4].Except(numbersDrawn).Any()))
                 {
                     var winningBoard = boardNumbers.ToArray();
                     winningBoards.Add(winningBoard);
@@ -497,7 +496,7 @@ namespace AdventOfCode2021
                     boardWon = true;
                 }
 
-                //if not match on rows, check board columns
+                //if no match on rows, check board columns
                 if (boardWon == false)
                 {
                     var boardColumns = GetBingoBoardColumns(boardRows);
