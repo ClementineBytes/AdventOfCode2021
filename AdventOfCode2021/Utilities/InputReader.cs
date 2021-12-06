@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2021.Utilities
 {
@@ -78,6 +80,66 @@ namespace AdventOfCode2021.Utilities
                 }
             }
             return binaryArr;
+        }
+
+        public List<int> GetBingoNumbersFromInput()
+        {
+            string dataStr = "";
+            try
+            {
+                using (var reader = new StreamReader(FileName))
+                {
+                    dataStr = reader.ReadLine();
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("Error reading input file " + FileName);
+                Console.WriteLine(ex.Message);
+            }
+            var data = dataStr.Split(',').Select(int.Parse).ToList();
+            return data;
+        }
+
+        public List<string[][]> GetBingoBoardsFromInput()
+        {
+            string dataStr = "";
+            try
+            {
+                using (var reader = new StreamReader(FileName))
+                {
+                    reader.ReadLine(); //skip the first line of bingo numbers to get to the boards
+                    dataStr = reader.ReadToEnd();
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("Error reading input file " + FileName);
+                Console.WriteLine(ex.Message);
+            }
+
+            //var data = dataStr.Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+            //Regex trimmer = new Regex(@"\s\s+");
+
+            var data = dataStr.Split(Environment.NewLine);
+            data = data.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            var bingoBoards = new List<string[][]>();
+
+            for (int i = 0; i < data.Length; i+=5)
+            {
+                var bingoBoard = new string[5][];
+                for (int j = 0; j < 5; j++)
+                {
+                    //bingoBoard[j] = new string[1];
+                    //var rowStr = data[i + j];
+                    //rowStr = rowStr.Trim();
+                    //bingoBoard[j][0] = rowStr;
+                    bingoBoard[j] = new string[1];
+                    bingoBoard[j][0] = data[i + j];
+                }
+                bingoBoards.Add(bingoBoard);
+            }
+            return bingoBoards;
         }
     }
 }
