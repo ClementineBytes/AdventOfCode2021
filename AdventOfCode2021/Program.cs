@@ -563,19 +563,20 @@ namespace AdventOfCode2021
                     yPoint1 = yPoint2;
                     yPoint2 = temp;
                 }
-                else if (yPoint1 > yPoint2)
-                {
-                    int temp = xPoint1;
-                    xPoint1 = xPoint2;
-                    xPoint2 = temp;
-
-                    temp = yPoint1;
-                    yPoint1 = yPoint2;
-                    yPoint2 = temp;
-                }
 
                 if (xPoint1 == xPoint2)
                 {
+                    if (yPoint1 > yPoint2)
+                    {
+                        int temp = xPoint1;
+                        xPoint1 = xPoint2;
+                        xPoint2 = temp;
+
+                        temp = yPoint1;
+                        yPoint1 = yPoint2;
+                        yPoint2 = temp;
+                    }
+
                     //insert vertical line
                     for (int j = yPoint1; j <= yPoint2; j++)
                     {
@@ -594,10 +595,41 @@ namespace AdventOfCode2021
                 }
                 else
                 {
-                    continue;
+                    //insert diagonal line
+                    var xPoints = new List<int>();
+                    var yPoints = new List<int>();
+
+                    for (int x = xPoint1; x <= xPoint2; x++)
+                    {
+                        xPoints.Add(x);
+                    }
+
+                    if (yPoint1 < yPoint2)
+                    {
+                        //ascending diagonal line
+                        for (int y = yPoint1; y <= yPoint2; y++)
+                        {
+                            yPoints.Add(y);
+                        }
+                    }
+                    else
+                    {
+                        //descending diagonal line
+                        for (int y = yPoint1; y >= yPoint2; y--)
+                        {
+                            yPoints.Add(y);
+                        }
+                    }
+
+                    for (int j = 0; j < xPoints.Count; j++)
+                    {
+                        int x = xPoints.ElementAt(j);
+                        int y = yPoints.ElementAt(j);
+                        board[(x, y)] = board[(x, y)] + 1;
+                    }
                 }
             }
-        
+
             var result = board.Where(x => x.Value > 1).Count();
             return result;
         }
