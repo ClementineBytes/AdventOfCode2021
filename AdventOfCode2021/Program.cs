@@ -42,9 +42,14 @@ namespace AdventOfCode2021
             #endregion
 
             #region Day 5
-            var numberOfLinesIntersecting = GetNumberOfPointsLinesOverlap("Day5-Input.txt");
-            Console.WriteLine(numberOfLinesIntersecting);
+            //var numberOfLinesIntersecting = GetNumberOfPointsLinesOverlap("Day5-Input.txt");
+            //Console.WriteLine(numberOfLinesIntersecting);
             #endregion
+
+            #region Day 6
+            var numOfLanternFish = GetNumberOfLanternFish("Day6-Input.txt");
+            Console.WriteLine(numOfLanternFish);
+            #endregion 
             Console.ReadLine();
         }
 
@@ -634,5 +639,48 @@ namespace AdventOfCode2021
             return result;
         }
         #endregion
+
+        #region Day 6
+        public static int GetNumberOfLanternFish(string inputFile)
+        {
+            var reader = new InputReader(inputFile);
+            var data = reader.GetStringArrayFromInput();
+
+            var lanternFish = new List<int>();
+
+            foreach (var s in data[0].Split(','))
+            {
+                int num;
+                if (int.TryParse(s, out num))
+                    lanternFish.Add(num);
+            }
+
+            var allFish = CalculateLanternFishReplication(80, lanternFish);
+            return allFish.Count;
+        }
+
+        public static List<int> CalculateLanternFishReplication(int numOfDays, List<int> lanternFish)
+        {
+            for (int i = 0; i < numOfDays; i++)
+            {
+                var fishToAdd = new List<int>();
+                for(int j = 0; j < lanternFish.Count; j++)
+                {
+                    var fish = lanternFish[j];
+                    fish = fish - 1;
+                    if (fish < 0)
+                    {
+                        int freshFish = 8;
+                        fishToAdd.Add(freshFish);
+                        fish = 6;
+                    }
+                    lanternFish[j] = fish;
+                }
+                lanternFish.AddRange(fishToAdd);
+            
+            }
+            return lanternFish;
+        }
+        #endregion 
     }
 }
