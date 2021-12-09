@@ -12,11 +12,11 @@ namespace AdventOfCode2021
 
             #region Day 1
             //Day 1 
-            var numOfIncreases = GetNumberOfDepthIncreases("Day1-Input.txt");
-            Console.WriteLine("number of increases is " + numOfIncreases);
+            //var numOfIncreases = GetNumberOfDepthIncreases("Day1-Input.txt");
+            //Console.WriteLine("number of increases is " + numOfIncreases);
 
-            var numOfSumIncreases = GetNumberOfSumIncreases("Day1-Input.txt");
-            Console.WriteLine("number of sum increases is " + numOfSumIncreases);
+            //var numOfSumIncreases = GetNumberOfSumIncreases("Day1-Input.txt");
+            //Console.WriteLine("number of sum increases is " + numOfSumIncreases);
             #endregion
 
             #region Day 2
@@ -36,9 +36,14 @@ namespace AdventOfCode2021
 
             #region Day 4
             //Day 4 Bingo Game
-            var firstwinningBoardScore = GetFirstWinningBoardScore("Day4-Input.txt");
-            var lastWinningBoardScore = GetLastWinningBoardScore("Day4-Input.txt");
+            //var firstwinningBoardScore = GetFirstWinningBoardScore("Day4-Input.txt");
+            //var lastWinningBoardScore = GetLastWinningBoardScore("Day4-Input.txt");
 
+            #endregion
+
+            #region Day 5
+            var numberOfLinesIntersecting = GetNumberOfPointsLinesOverlap("Day5-Input.txt");
+            Console.WriteLine(numberOfLinesIntersecting);
             #endregion
             Console.ReadLine();
         }
@@ -81,7 +86,7 @@ namespace AdventOfCode2021
                 {
                     previousSum = currentSum;
                     currentSum = depthsArr[i] + depthsArr[i + 1] + depthsArr[i + 2];
-                    if (currentSum > previousSum) 
+                    if (currentSum > previousSum)
                     {
                         result++;
                     }
@@ -202,12 +207,12 @@ namespace AdventOfCode2021
                 int mostCommonNumber = 0;
 
                 var ones = from x in nums
-                                 where x[cursor] == 1
-                                 select x;
+                           where x[cursor] == 1
+                           select x;
 
                 var zeros = from x in nums
-                                   where x[cursor] == 0
-                                   select x;
+                            where x[cursor] == 0
+                            select x;
 
                 if (ones.ToArray().Length >= zeros.ToArray().Length)
                 {
@@ -241,12 +246,12 @@ namespace AdventOfCode2021
                 int leastCommonNumber = 0;
 
                 var ones = from x in nums
-                                 where x[cursor] == 1
-                                 select x;
+                           where x[cursor] == 1
+                           select x;
 
                 var zeros = from x in nums
-                                   where x[cursor] == 0
-                                   select x;
+                            where x[cursor] == 0
+                            select x;
 
                 if (ones.ToArray().Length < zeros.ToArray().Length)
 
@@ -378,7 +383,7 @@ namespace AdventOfCode2021
                 {
                     var boardColumns = GetBingoBoardColumns(boardRows);
 
-                    if (!boardColumns[0].Except(numbersDrawn).Any() || !boardColumns[1].Except(numbersDrawn).Any() || !boardColumns[2].Except(numbersDrawn).Any() || !boardColumns[3].Except(numbersDrawn).Any() || !boardColumns[4].Except(numbersDrawn).Any()) 
+                    if (!boardColumns[0].Except(numbersDrawn).Any() || !boardColumns[1].Except(numbersDrawn).Any() || !boardColumns[2].Except(numbersDrawn).Any() || !boardColumns[3].Except(numbersDrawn).Any() || !boardColumns[4].Except(numbersDrawn).Any())
                     {
                         return boardNumbers;
                     }
@@ -514,5 +519,88 @@ namespace AdventOfCode2021
         #endregion
         #endregion
 
+        #region Day 5
+        public static int GetNumberOfPointsLinesOverlap(string inputFile)
+        {
+            var reader = new InputReader(inputFile);
+
+            var data = reader.GetLinePoints();
+            var xAxisCoordinates = data.ElementAt(0);
+            var yAxisCoordinates = data.ElementAt(1);
+
+            var maxHorizontal = xAxisCoordinates.Max();
+            var minHorizontal = xAxisCoordinates.Min();
+
+            var maxVertical = yAxisCoordinates.Max();
+            var minVertical = yAxisCoordinates.Min();
+            var board = new Dictionary<(int, int), int>();
+
+            //initialize dictionary
+            for (int y = minVertical; y <= maxVertical; y++)
+            {
+                int coordinate = y;
+                for (int x = minHorizontal; x <= maxHorizontal; x++)
+                {
+                    int xCoordinate = x;
+                    board.Add((xCoordinate, y), 0);
+                }
+            }
+
+            for (int i = 1; i < xAxisCoordinates.Length; i += 2)
+            {
+                int xPoint1 = xAxisCoordinates[i - 1];
+                int xPoint2 = xAxisCoordinates[i];
+                int yPoint1 = yAxisCoordinates[i - 1];
+                int yPoint2 = yAxisCoordinates[i];
+
+                if (xPoint1 > xPoint2)
+                {
+                    int temp = xPoint1;
+                    xPoint1 = xPoint2;
+                    xPoint2 = temp;
+
+                    temp = yPoint1;
+                    yPoint1 = yPoint2;
+                    yPoint2 = temp;
+                }
+                else if (yPoint1 > yPoint2)
+                {
+                    int temp = xPoint1;
+                    xPoint1 = xPoint2;
+                    xPoint2 = temp;
+
+                    temp = yPoint1;
+                    yPoint1 = yPoint2;
+                    yPoint2 = temp;
+                }
+
+                if (xPoint1 == xPoint2)
+                {
+                    //insert vertical line
+                    for (int j = yPoint1; j <= yPoint2; j++)
+                    {
+                        board[(xPoint1, j)] = board[(xPoint1, j)] + 1;
+                    }
+
+                }
+                else if (yPoint1 == yPoint2)
+                {
+                    //insert horizontal line
+                    for (int j = xPoint1; j <= xPoint2; j++)
+                    {
+                        board[(j, yPoint1)] = board[(j, yPoint1)] + 1;
+                    }
+
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        
+            var result = board.Where(x => x.Value > 1).Count();
+            return result;
+        }
+        #endregion
     }
 }
