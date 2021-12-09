@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2021.Utilities
 {
@@ -132,6 +133,40 @@ namespace AdventOfCode2021.Utilities
                 bingoBoards.Add(bingoBoard);
             }
             return bingoBoards;
+        }
+
+        public List<int[]> GetLinePoints()
+        {
+            var data = GetStringArrayFromInput();
+            var nums = new List<int>();
+            var xAxisCoordinates = new List<int>();
+            var yAxisCoordinates = new List<int>();
+            foreach (string item in data)
+            {
+                var trimmedString = Regex.Replace(item, "->", ",");
+                trimmedString = Regex.Replace(trimmedString, " ", "");
+                foreach (var s in trimmedString.Split(','))
+                {
+                    int num = int.Parse(s);
+                    nums.Add(num);
+                }
+            }
+            for (int i = 0; i < nums.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    xAxisCoordinates.Add(nums.ElementAt(i));
+                }
+                else
+                {
+                    yAxisCoordinates.Add(nums.ElementAt(i));
+                }
+            }
+            var linePoints = new List<int[]>();
+            linePoints.Add(xAxisCoordinates.ToArray());
+            linePoints.Add(yAxisCoordinates.ToArray());
+
+            return linePoints;
         }
     }
 }
