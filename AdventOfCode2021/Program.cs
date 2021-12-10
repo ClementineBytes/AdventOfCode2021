@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace AdventOfCode2021
 {
@@ -641,7 +642,7 @@ namespace AdventOfCode2021
         #endregion
 
         #region Day 6
-        public static int GetNumberOfLanternFish(string inputFile)
+        public static long GetNumberOfLanternFish(string inputFile)
         {
             var reader = new InputReader(inputFile);
             var data = reader.GetStringArrayFromInput();
@@ -654,32 +655,36 @@ namespace AdventOfCode2021
                 if (int.TryParse(s, out num))
                     lanternFish.Add(num);
             }
-
-            var allFish = CalculateLanternFishReplication(80, lanternFish);
-            return allFish.Count;
+           
+            var fishCount = CalculateLanternFishReplication(80, lanternFish);
+            return fishCount;
         }
 
-        public static List<int> CalculateLanternFishReplication(int numOfDays, List<int> lanternFish)
+        public static long CalculateLanternFishReplication(int numOfDays, List<int> lanternFish)
         {
-            for (int i = 0; i < numOfDays; i++)
+            var counts = new long[10];
+
+            foreach (int i in lanternFish)
             {
-                var fishToAdd = new List<int>();
-                for(int j = 0; j < lanternFish.Count; j++)
-                {
-                    var fish = lanternFish[j];
-                    fish = fish - 1;
-                    if (fish < 0)
-                    {
-                        int freshFish = 8;
-                        fishToAdd.Add(freshFish);
-                        fish = 6;
-                    }
-                    lanternFish[j] = fish;
-                }
-                lanternFish.AddRange(fishToAdd);
-            
+                counts[i]++;
             }
-            return lanternFish;
+
+            for (int day = 0; day < numOfDays; day++)
+            {
+                counts[9] = counts[0]; //new fish
+                counts[7] += counts[0]; //set parent fish to 6 day counter
+
+                for (int i = 0; i < counts.Length -1; i++)
+                {
+                    counts[i] = counts[i + 1];
+                }
+            }
+            long result = 0;
+            for (int i = 0; i < counts.Length - 1; i++)
+            {
+                result += counts[i];
+            }
+            return result;
         }
         #endregion 
     }
