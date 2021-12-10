@@ -48,8 +48,13 @@ namespace AdventOfCode2021
             #endregion
 
             #region Day 6
-            var numOfLanternFish = GetNumberOfLanternFish("Day6-Input.txt");
-            Console.WriteLine(numOfLanternFish);
+            //var numOfLanternFish = GetNumberOfLanternFish("Day6-Input.txt");
+            //Console.WriteLine(numOfLanternFish);
+            #endregion 
+
+            #region Day 7
+            var optimalCrabPosition = GetOptimalCrabFuelConsumption("Day7-Input.txt");
+            Console.WriteLine(optimalCrabPosition);
             #endregion 
             Console.ReadLine();
         }
@@ -655,7 +660,7 @@ namespace AdventOfCode2021
                 if (int.TryParse(s, out num))
                     lanternFish.Add(num);
             }
-           
+
             var fishCount = CalculateLanternFishReplication(80, lanternFish);
             return fishCount;
         }
@@ -674,7 +679,7 @@ namespace AdventOfCode2021
                 counts[9] = counts[0]; //new fish
                 counts[7] += counts[0]; //set parent fish to 6 day counter
 
-                for (int i = 0; i < counts.Length -1; i++)
+                for (int i = 0; i < counts.Length - 1; i++)
                 {
                     counts[i] = counts[i + 1];
                 }
@@ -686,6 +691,40 @@ namespace AdventOfCode2021
             }
             return result;
         }
-        #endregion 
+        #endregion
+
+        #region Day 7
+        public static decimal GetOptimalCrabFuelConsumption(string inputFile)
+        {
+            var reader = new InputReader(inputFile);
+            var arrayHelper = new ArrayHelper();
+
+            var positions = reader.GetIntArrayFromInput();
+            Array.Sort(positions);
+
+            decimal median = arrayHelper.GetMedian(positions);
+            var positionsLeftOfMedian = positions.Where(x => x < median).ToArray();
+            var positionsRightOfMedian = positions.Where(x => x > median).ToArray();
+
+            var leftPositionsMean = positionsLeftOfMedian.Select(x => x).Sum() / positionsLeftOfMedian.Length;
+            var rightPositionsMean = positionsRightOfMedian.Select(x => x).Sum() / positionsRightOfMedian.Length;
+
+            decimal fuel = 0;
+
+            for (int i = 0; i < positionsLeftOfMedian.Length; i++)
+            {
+                decimal movements = median - positionsLeftOfMedian[i];
+                fuel += movements;
+            }
+
+            for (int i = 0; i < positionsRightOfMedian.Length; i++)
+            {
+                decimal movements = positionsRightOfMedian[i] - median;
+                fuel += movements;
+            }
+
+            return fuel;
+        }
+        #endregion
     }
 }

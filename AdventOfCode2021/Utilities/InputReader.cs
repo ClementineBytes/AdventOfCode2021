@@ -17,8 +17,9 @@ namespace AdventOfCode2021.Utilities
         public int[] GetIntArrayFromInput()
         {
             var inputStrArr = GetStringArrayFromInput();
+            var splitStr = inputStrArr[0].Split(',');
             var data = new List<int>();
-            foreach (var str in inputStrArr)
+            foreach (var str in splitStr)
             {
                 data.Add(int.Parse(str));
             }
