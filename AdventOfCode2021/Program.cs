@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace AdventOfCode2021
 {
@@ -42,9 +43,14 @@ namespace AdventOfCode2021
             #endregion
 
             #region Day 5
-            var numberOfLinesIntersecting = GetNumberOfPointsLinesOverlap("Day5-Input.txt");
-            Console.WriteLine(numberOfLinesIntersecting);
+            //var numberOfLinesIntersecting = GetNumberOfPointsLinesOverlap("Day5-Input.txt");
+            //Console.WriteLine(numberOfLinesIntersecting);
             #endregion
+
+            #region Day 6
+            var numOfLanternFish = GetNumberOfLanternFish("Day6-Input.txt");
+            Console.WriteLine(numOfLanternFish);
+            #endregion 
             Console.ReadLine();
         }
 
@@ -634,5 +640,52 @@ namespace AdventOfCode2021
             return result;
         }
         #endregion
+
+        #region Day 6
+        public static long GetNumberOfLanternFish(string inputFile)
+        {
+            var reader = new InputReader(inputFile);
+            var data = reader.GetStringArrayFromInput();
+
+            var lanternFish = new List<int>();
+
+            foreach (var s in data[0].Split(','))
+            {
+                int num;
+                if (int.TryParse(s, out num))
+                    lanternFish.Add(num);
+            }
+           
+            var fishCount = CalculateLanternFishReplication(80, lanternFish);
+            return fishCount;
+        }
+
+        public static long CalculateLanternFishReplication(int numOfDays, List<int> lanternFish)
+        {
+            var counts = new long[10];
+
+            foreach (int i in lanternFish)
+            {
+                counts[i]++;
+            }
+
+            for (int day = 0; day < numOfDays; day++)
+            {
+                counts[9] = counts[0]; //new fish
+                counts[7] += counts[0]; //set parent fish to 6 day counter
+
+                for (int i = 0; i < counts.Length -1; i++)
+                {
+                    counts[i] = counts[i + 1];
+                }
+            }
+            long result = 0;
+            for (int i = 0; i < counts.Length - 1; i++)
+            {
+                result += counts[i];
+            }
+            return result;
+        }
+        #endregion 
     }
 }
